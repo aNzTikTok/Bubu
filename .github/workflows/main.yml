@@ -31,10 +31,10 @@ jobs:
         tar -xf openwrt-sdk-23.05.3-x86-64_*.tar.xz
         mv openwrt-sdk-*/ openwrt-sdk
 
-    - name: Add luci-app-nfttl to SDK
+    - name: Clone luci-app-nfttl repository
       run: |
         cd openwrt-sdk
-        cp -r ../luci-app-nfttl/controller ../luci-app-nfttl/model ../luci-app-nfttl/nfttl ./package/luci-app-nfttl/
+        git clone https://github.com/aNzTikTok/luci-app-nfttl.git package/luci-app-nfttl
         echo "src-link luci-app-nfttl ../package/luci-app-nfttl" >> feeds.conf
         ./scripts/feeds update -a
         ./scripts/feeds install -a
