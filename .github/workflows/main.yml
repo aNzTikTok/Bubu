@@ -31,11 +31,15 @@ jobs:
         tar -xf openwrt-sdk-23.05.3-x86-64_*.tar.xz
         mv openwrt-sdk-*/ openwrt-sdk
 
-    - name: Clone luci-app-nfttl repository
+    - name: Add luci-app-nfttl to feeds.conf
       run: |
         cd openwrt-sdk
-        git clone https://github.com/aNzTikTok/luci-app-nfttl.git package/luci-app-nfttl
-        echo "src-link luci-app-nfttl ../package/luci-app-nfttl" >> feeds.conf
+        # Add the src-git directive for luci-app-nfttl
+        echo "src-git myapp https://github.com/aNzTikTok/luci-app-nfttl.git" >> feeds.conf
+
+    - name: Update and install feeds
+      run: |
+        cd openwrt-sdk
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
