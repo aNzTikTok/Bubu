@@ -34,8 +34,11 @@ jobs:
     - name: Add luci-app-nfttl to feeds.conf
       run: |
         cd openwrt-sdk
-        # Add the src-git directive for luci-app-nfttl
         echo "src-git myapp https://github.com/aNzTikTok/luci-app-nfttl.git" >> feeds.conf
+
+    - name: Verify feeds.conf
+      run: |
+        cat openwrt-sdk/feeds.conf
 
     - name: Update and install feeds
       run: |
@@ -43,11 +46,15 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
+    - name: Verify package directory structure
+      run: |
+        ls -R openwrt-sdk/package
+
     - name: Build luci-app-nfttl
       run: |
         cd openwrt-sdk
         make defconfig
-        make package/luci-app-nfttl/compile V=s
+        make V=s
 
     - name: Find built .ipk
       id: find_ipk
